@@ -5,6 +5,10 @@ import { ScheduleUtil } from '@schedule/utils';
 import { useIsMobile } from '@components/hook/use-modile';
 import {CELL_COLOR} from '@components/schedule/constants.ts';
 import TimeCol from '@components/schedule/time-col.tsx';
+import html2canvas from 'html2canvas-pro';
+import {useRef} from 'react';
+import {Button} from '@components/ui/button.tsx';
+import {Save} from 'lucide-react';
 
 interface Props {
   lectureScheduleInfo: LectureScheduleInfo;
@@ -64,14 +68,42 @@ export default function ScheduleView({ lectureScheduleInfo }: Props) {
     }
 
     return `h-12 border border-black ${lecture.color}`;
-  };
+  }
+
+  const captureRef = useRef<HTMLDivElement>(null);
+
+  async function clickDownload() {
+    if (!captureRef.current) return;
+    try {
+      const canvas = await html2canvas(captureRef.current);
+      const imageData = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = imageData;
+      link.download = '시간표.png';
+      link.click();
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   return (
     <>
       {/* 학기 정보 */}
-      <h2 className="font-bold">{year}년 {term}학기</h2>
+      <div className='w-full flex items-center justify-between px-4'>
+        <h2 className="font-bold">{year}년 {term}학기</h2>
+        {isMobile ? (
+          <Button size='icon' onClick={clickDownload}>
+            <Save />
+          </Button>
+        ) : (
+          <Button onClick={clickDownload}>
+            <Save />
+            <p>저장하기</p>
+          </Button>
+        )}
+      </div>
       {/* 표 */}
-      <div className="w-full h-full flex flex-col">
+      <div ref={captureRef} id='capture' className="w-full h-full flex flex-col">
         {/* 요일 헤더 */}
         <WeekHeader />
         {/* 시간표 그리드 */}
