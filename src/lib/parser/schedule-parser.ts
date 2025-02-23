@@ -5,8 +5,8 @@ import {SCHEDULE_COL, SCHEDULE_COL_NAME} from '@parser/constants.ts';
 import { InvalidHanbatScheduleException } from '@parser/error';
 
 export class ScheduleParser implements LectureScheduleParser {
-  async parse(xlsArrayBuffer: Buffer): Promise<LectureScheduleInfo> {
-    const workbook = XLSXUtil.read(xlsArrayBuffer.buffer, { type: 'buffer' });
+  async parse(xlsArrayBuffer: ArrayBuffer | ArrayBufferLike): Promise<LectureScheduleInfo> {
+    const workbook = XLSXUtil.read(xlsArrayBuffer, { type: 'buffer' });
 
     const sheetName = workbook.SheetNames[0];
     const workSheet = workbook.Sheets[sheetName];

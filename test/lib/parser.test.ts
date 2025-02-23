@@ -49,13 +49,13 @@ describe('ScheduleParser 테스트',() => {
       ],
     };
     const arrayBuffer = fs.readFileSync(path.resolve(__dirname, '../data/test-data.xls'));
-    const actual = await parser.parse(arrayBuffer);
+    const actual = await parser.parse(arrayBuffer.buffer);
 
     expect(actual).toEqual(expected);
   });
 
   it('XLS 컬럼 구조를 해석할 수 없을 경우 InvalidHanbatScheduleException을 발생시킨다.', async () => {
     const arrayBuffer = fs.readFileSync(path.resolve(__dirname, '../data/invalid-data-no-year.xlsx'));
-    expect(parser.parse(arrayBuffer)).rejects.toThrowError(InvalidHanbatScheduleException);
+    expect(parser.parse(arrayBuffer.buffer)).rejects.toThrowError(InvalidHanbatScheduleException);
   });
 })

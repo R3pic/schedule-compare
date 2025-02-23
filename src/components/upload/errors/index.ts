@@ -1,0 +1,1 @@
+export { InvalidFileExtensionException } from '@components/upload/errors/invalid-file-extension.exception';

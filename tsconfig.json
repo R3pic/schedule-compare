@@ -7,8 +7,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@lib/*": ["./src/lib/*"],
+      "@hooks/*": ["./src/lib/hooks"],
       "@parser/*": ["./src/lib/parser/*"],
       "@schedule/*": ["./src/lib/schedule/*"],
+      "@components/*": ["./src/components/*"],
     }
   }
 }
