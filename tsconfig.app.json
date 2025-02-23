@@ -20,7 +20,12 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@parser/*": ["./src/lib/parser/*"],
+      "@schedule/*": ["./src/lib/schedule/*"],
+    }
   },
-  "include": ["src"]
+  "include": ["src", "test"]
 }

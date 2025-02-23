@@ -1,0 +1,1 @@
+export { type LectureScheduleParser } from '@parser/types/excel-parser.interface';
