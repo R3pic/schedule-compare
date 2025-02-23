@@ -43,6 +43,7 @@ function createScheduleMap(rows: LectureScheduleRow[]) {
 export default function ScheduleView({ lectureScheduleInfo }: Props) {
   const { year, term, rows } = lectureScheduleInfo;
   const cellMap = createScheduleMap(rows);
+  console.log(cellMap);
   const isMobile = useIsMobile();
   const captureRef = useRef<HTMLDivElement>(null);
 
