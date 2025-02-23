@@ -1,3 +1,5 @@
+import {Day} from '@schedule/types';
+
 export class ScheduleUtil {
   static periodToTime(period: number) {
     return period + 8;
@@ -5,12 +7,12 @@ export class ScheduleUtil {
 
   static parseLectureTimeString(
     lectureTimeStr: string
-  ): { day: string; periods: number[] }[] {
-    const result: { day: string; periods: number[] }[] = [];
+  ): { day: Day; periods: number[] }[] {
+    const result: { day: Day; periods: number[] }[] = [];
     const regex = /([월화수목금토일])\s*([\d,]+)/g;
     let match;
     while ((match = regex.exec(lectureTimeStr)) !== null) {
-      const day = match[1];
+      const day = match[1] as Day;
       const periods = match[2]
         .split(',')
         .map((str) => parseInt(str.trim(), 10))
