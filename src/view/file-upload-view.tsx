@@ -5,19 +5,20 @@ import {InvalidHanbatScheduleException} from '@parser/error';
 import {toast, Toaster} from 'sonner';
 import {TOAST_OPTIONS} from '@components/constants.ts';
 import {LectureScheduleInfo} from '@schedule/types';
+import {Button} from '@components/ui/button.tsx';
+import {Calendar} from 'lucide-react';
+import {ScheduleUtil} from '@schedule/utils.ts';
 
 interface Props {
-  setIsDone: (isDone: boolean) => void;
   setData: (data: LectureScheduleInfo) => void;
 }
 
-export default function FileUploadView({ setIsDone, setData }: Props) {
+export default function FileUploadView({ setData }: Props) {
   async function bufferToLectureScheduleInfo(arrayBuffer: ArrayBuffer) {
     try {
       const parser = new ScheduleParser();
       const parsed = await parser.parse(arrayBuffer);
       setData(parsed);
-      setIsDone(true);
     } catch(e) {
       if (e instanceof InvalidHanbatScheduleException) {
         toast.error("시간표를 해석할 수 없는 파일입니다.", {
@@ -35,6 +36,17 @@ export default function FileUploadView({ setIsDone, setData }: Props) {
     });
   }
 
+  function onCreateEmptyScheduleClick() {
+    const year = ScheduleUtil.getCurrentYear();
+    const term = ScheduleUtil.getCurrentTerm();
+
+    setData({
+      year,
+      term,
+      rows: [],
+    });
+  }
+
   return (
     <div className='w-full h-full flex flex-col items-center justify-between'>
       <Toaster expand />
@@ -42,7 +54,11 @@ export default function FileUploadView({ setIsDone, setData }: Props) {
         onFileUploaded={bufferToLectureScheduleInfo}
         onError={onDragDropErrorHandle}
       />
-      <div className="flex p-4 w-full justify-end">
+      <div className="flex p-4 w-full justify-between">
+        <Button onClick={onCreateEmptyScheduleClick}>
+          <Calendar />
+          빈 시간표 만들기
+        </Button>
         <FileUploadInput
           onFileChange={bufferToLectureScheduleInfo}
         />

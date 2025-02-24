@@ -25,4 +25,12 @@ export class ScheduleUtil {
     }
     return result;
   }
+
+  static getCurrentYear() {
+    return new Date().getFullYear().toString();
+  }
+
+  static getCurrentTerm() {
+    return new Date().getMonth() < 6 ? '1' : '2';
+  }
 }

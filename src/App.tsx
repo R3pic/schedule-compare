@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 
 import { Card } from '@components/ui/card.tsx';
 import ScheduleView from 'src/view/schedule-view.tsx';
@@ -12,8 +12,8 @@ import {ArrowRightLeft} from 'lucide-react';
 function App() {
   const isMobile = useIsMobile();
   const [isCompareView, setIsCompareView] = useState<boolean>(false);
-  const [isDone, setIsDone] = useState<boolean>(false);
   const [data, setData] = useState<LectureScheduleInfo | null>(null);
+  const isDone = useCallback(() => !!data, [data]);
 
   return (
     <div className="h-screen w-screen flex flex-col items-center bg-gradient-to-br from-white to-gray-300">
@@ -41,13 +41,12 @@ function App() {
         <CompareView />
       ) : (
         <>
-            {isDone && data ? (
+            {isDone() && data ? (
               <ScheduleView
                 lectureScheduleInfo={data}
               />
             ) : (
               <FileUploadView
-                setIsDone={setIsDone}
                 setData={setData}
               />
             )}
