@@ -1,7 +1,7 @@
 import DragDropPngInput from '@components/upload/drag-drop-png-input.tsx';
 import {toast, Toaster} from 'sonner';
 import {TOAST_OPTIONS} from '@components/constants.ts';
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 import {PngMetadataUtil} from '@lib/png/metadata-util.ts';
 import {ScheduleUtil} from '@schedule/utils.ts';
 import {InvalidPngFileException} from '@lib/png/errors';
@@ -15,6 +15,10 @@ export default function CompareView() {
   const [isCompare, setIsCompare] = useState<boolean>(false);
   const [compareArray, setCompareArray] = useState<number[]>([]);
   const [fileScheduleArrays, setFileScheduleArrays] = useState<number[][]>([]);
+
+  const isComparable = useCallback(() => {
+    return fileScheduleArrays.length > 1;
+  }, [fileScheduleArrays]);
 
   async function onFileUploaded(files: File[]) {
     const scheduleArrays: number[][] = [];
@@ -57,7 +61,7 @@ export default function CompareView() {
   }
 
   async function compareButtonClick() {
-    if (fileScheduleArrays.length > 0) {
+    if (fileScheduleArrays.length > 1) {
       setCompareArray(createCompareArray(fileScheduleArrays));
       setIsCompare(true);
     }
@@ -98,13 +102,13 @@ export default function CompareView() {
           <div className="flex p-4 w-full justify-between">
             <div className='flex gap-2'>
               <Button
-                className={fileScheduleArrays.length > 0 ? 'animate-bounce' : ''}
+                className={isComparable() ? 'animate-bounce' : ''}
                 onClick={compareButtonClick}
               >
                 <Check/>
                 비교하기
               </Button>
-              {fileScheduleArrays.length > 0 && <p className='text-xs text-green-500'>총 { fileScheduleArrays.length }개의 일정을 지금 바로 비교할 수 있어요!</p>}
+              {isComparable() && <p className='text-xs text-green-500'>총 { fileScheduleArrays.length }개의 일정을 지금 바로 비교할 수 있어요!</p>}
             </div>
             <FileMultiUploadInput onFileChange={onFileUploaded}/>
           </div>

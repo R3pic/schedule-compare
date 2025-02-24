@@ -16,7 +16,7 @@ function App() {
   const [data, setData] = useState<LectureScheduleInfo | null>(null);
 
   return (
-    <div className="h-screen w-screen flex flex-col items-center bg-gradient-to-br from-white to-green-200">
+    <div className="h-screen w-screen flex flex-col items-center bg-gradient-to-br from-white to-gray-300">
       <div className="relative flex w-3/4 items-center">
         <Button
           onClick={() => setIsCompareView(!isCompareView)}
