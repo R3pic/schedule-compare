@@ -5,7 +5,6 @@ import {InvalidHanbatScheduleException} from '@parser/error';
 import {toast, Toaster} from 'sonner';
 import {TOAST_OPTIONS} from '@components/constants.ts';
 import {LectureScheduleInfo} from '@schedule/types';
-import {useIsMobile} from '@components/hook/use-modile.tsx';
 
 interface Props {
   setIsDone: (isDone: boolean) => void;
@@ -13,8 +12,6 @@ interface Props {
 }
 
 export default function FileUploadView({ setIsDone, setData }: Props) {
-  const isMobile = useIsMobile();
-
   async function bufferToLectureScheduleInfo(arrayBuffer: ArrayBuffer) {
     try {
       const parser = new ScheduleParser();
@@ -39,15 +36,17 @@ export default function FileUploadView({ setIsDone, setData }: Props) {
   }
 
   return (
-    <>
+    <div className='w-full h-full flex flex-col items-center justify-between'>
       <Toaster expand />
-      {!isMobile && <DragDropInput
+      <DragDropInput
         onFileUploaded={bufferToLectureScheduleInfo}
         onError={onDragDropErrorHandle}
-      />}
-      <FileUploadInput
-        onFileChange={bufferToLectureScheduleInfo}
       />
-    </>
+      <div className="flex p-4 w-full justify-end">
+        <FileUploadInput
+          onFileChange={bufferToLectureScheduleInfo}
+        />
+      </div>
+    </div>
   );
 }

@@ -1,6 +1,10 @@
 import {Day} from '@schedule/types';
 
 export class ScheduleUtil {
+  static getEmptyScheduleArray() {
+    return Array.from({ length: 91 }, () => 0);
+  }
+
   static periodToTime(period: number) {
     return period + 8;
   }

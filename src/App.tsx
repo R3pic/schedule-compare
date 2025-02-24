@@ -15,25 +15,25 @@ function App() {
   const [isDone, setIsDone] = useState<boolean>(false);
   const [data, setData] = useState<LectureScheduleInfo | null>(null);
 
-
-
   return (
     <div className="h-screen w-screen flex flex-col items-center bg-gradient-to-br from-white to-green-200">
       <div className="relative flex w-3/4 items-center">
         <Button
           onClick={() => setIsCompareView(!isCompareView)}
           size={isMobile ? 'icon' : 'default'}
-          className={`absolute ${isMobile ? '' : 'left-5'}`}>
+          className={`absolute ${isMobile ? '-left-5' : 'left-5'}`}>
           { isMobile ? (
             <ArrowRightLeft />
           ) : (
             <p>{ isCompareView ? '시간표 생성' : '시간표 비교' }</p>
           )}
         </Button>
-        <h1 className="flex-1 text-center my-4 text-4xl font-bold">시간표 생성기</h1>
+        <h1 className="flex-1 text-center my-4 text-4xl font-bold">
+          {isCompareView ? '시간표 비교' : '시간표 생성'}
+        </h1>
       </div>
       <Card className={isMobile ?
-        'w-full flex-1 justify-end rounded-none'
+        'p-4 w-full flex-1 justify-end rounded-none'
         :
         'w-3/4 h-11/12 p-4 mb-4 flex flex-col items-center'
       }>

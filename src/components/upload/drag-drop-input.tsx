@@ -26,12 +26,12 @@ export default function DragDropInput({ onFileUploaded, onError }: Props) {
 
   return (
     <Card
-      className="p-4 w-full flex-1 border-dashed text-center text-muted-foreground justify-center"
+      className="w-full flex-1 border-dashed text-center text-muted-foreground justify-center"
       onDrop={handleDragDrop}
       onDragOver={suppress}
       onDragEnter={suppress}
     >
-      <h3 className="text-xl">드래그 앤 드랍으로 파일을 업로드하세요</h3>
+      <h3 className="text-xl break-keep">드래그 앤 드랍으로 파일을 업로드할 수 있습니다.</h3>
       <p className="text-sm">.xls, .xlsx 형식의 파일을 지원합니다.</p>
     </Card>
   );

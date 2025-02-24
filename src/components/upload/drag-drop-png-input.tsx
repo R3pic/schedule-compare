@@ -3,25 +3,27 @@ import {DragEvent} from 'react';
 import {InvalidFileExtensionException} from '@components/upload/errors';
 
 interface Props {
-  onFileUploaded: (arrayBuffer: ArrayBuffer) => void;
+  onFileUploaded: (files: File[]) => void;
   onError: (e: Error) => void;
 }
 
 function suppress(e: DragEvent) { e.stopPropagation(); e.preventDefault(); }
 
-export default function DragDropInput({ onFileUploaded, onError }: Props) {
+export default function DragDropPngInput({ onFileUploaded, onError }: Props) {
   async function handleDragDrop(e: DragEvent) {
     suppress(e);
-    const file = e.dataTransfer.files[0];
+    const fileList = e.dataTransfer.files;
 
-    if (!file.name.endsWith('.png')) {
+    const files = Array.from(fileList);
+
+    if (!files.every((file) => file.name.endsWith(".png"))) {
       onError(new InvalidFileExtensionException());
       return;
     }
 
-    const arrayBuffer = await file.arrayBuffer();
+    const pngFiles = files.filter((file) => file.name.endsWith('.png'));
 
-    onFileUploaded(arrayBuffer);
+    onFileUploaded(pngFiles);
   }
 
   return (
@@ -31,7 +33,7 @@ export default function DragDropInput({ onFileUploaded, onError }: Props) {
       onDragOver={suppress}
       onDragEnter={suppress}
     >
-      <h3 className="text-xl">드래그 앤 드랍으로 파일을 업로드하세요</h3>
+      <h3 className="text-xl break-keep">드래그 앤 드랍으로 파일을 업로드할 수 있습니다.</h3>
       <p className="text-sm">.png 형식의 파일을 지원합니다.</p>
     </Card>
   );
